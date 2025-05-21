@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import brand1 from '../../assets/home/brand1.webp'
 import brand2 from '../../assets/home/brand2.webp'
 import brand3 from '../../assets/home/brand3.webp'
@@ -9,32 +9,56 @@ import brand7 from '../../assets/home/brand7.webp'
 import brand8 from '../../assets/home/brand8.webp'
 import brand9 from '../../assets/home/brand9.webp'
 import brand10 from '../../assets/home/brand10.webp'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const Brands = ({ itemClassName = "", containerClassName = "", iconSize = "" }) => {
-    const brands = [
-        { src: brand1, alt: 'Brand' },
-        { src: brand2, alt: 'Brand' },
-        { src: brand3, alt: 'Brand' },
-        { src: brand4, alt: 'Brand' },
-        { src: brand5, alt: 'Brand' },
-        { src: brand6, alt: 'Brand' },
-        { src: brand7, alt: 'Brand' },
-        { src: brand8, alt: 'Brand' },
-        { src: brand9, alt: 'Brand' },
-        { src: brand10, alt: 'Brand' },
+const Brands = () => {
+    const navigate = useNavigate();
+    const [brands, setBrands] = useState([]);
+    const brandsData = [
+        { src: brand1, alt: 'Brand', name: 'Toyota' },
+        { src: brand2, alt: 'Brand', name: 'Honda' },
+        { src: brand3, alt: 'Brand', name: 'Ford' },
+        { src: brand4, alt: 'Brand', name: 'Chevrolet' },
+        { src: brand5, alt: 'Brand', name: 'BMW' },
+        { src: brand6, alt: 'Brand', name: 'Audi' },
+        { src: brand7, alt: 'Brand', name: 'Mercedes' },
+        { src: brand8, alt: 'Brand', name: 'Nissan' },
+        { src: brand9, alt: 'Brand', name: 'Hyundai' },
+        { src: brand10, alt: 'Brand', name: 'Kia' },
     ];
+    useEffect(() => {
+        axios.get('/api/brands')
+            .then(res => setBrands(res.data))
+            .catch(err => console.error(err));
+    }, []);
+
+    const handleClick = (id, name) => {
+        navigate(`/brand/${id}`, { state: { name } });
+    };
+
     return (
-        <div className={`flex flex-wrap items-center ${containerClassName}`}>
-            {brands.map((brand, index) => (
+        <div className="flex flex-wrap items-center justify-center gap-12">
+            {brandsData.map((brand, index) => (
                 <div
                     key={index}
-                    className={`p-4 flex items-center justify-center ${itemClassName}`}
+                    onClick={() => handleClick(index, brand.name)}
+                    className="flex flex-col items-center justify-center"
                 >
-                    <img
-                        src={brand.src}
-                        alt={brand.alt}
-                        className={` object-contain cursor-pointer hover:scale-110 transition ${iconSize}`}
-                    />
+                    <div
+                        className="relative border rounded-2xl overflow-hidden cursor-pointer
+                        hover:scale-110 transition-transform duration-300 ease-in-outshadow-md drop-shadow-[0_0_2px_rgba(255,255,255,0.7)] w-44 h-44"
+                    >
+                        <img
+                            src={brand.src}
+                            alt={brand.alt}
+                            className="w-full h-full object-cover bg-[#121212]"
+                        />
+                        <p className="absolute bottom-2 left-[50%] transform 
+                            translate-x-[-50%] text-white text-lg font-semibold drop-shadow-md select-none">
+                            {brand.name}
+                        </p>
+                    </div>
                 </div>
             ))}
         </div>

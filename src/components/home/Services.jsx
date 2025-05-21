@@ -3,6 +3,7 @@ import buy from '../../assets/home/buy.png'
 import sell from '../../assets/home/sell.png'
 import rent from '../../assets/home/rent.png'
 import Button from '../Button';
+import { Link } from 'react-router-dom';
 
 const Services = () => {
     const images = [
@@ -34,9 +35,9 @@ const Services = () => {
                             alt={image.alt}
                             className="w-full object-cover object-top"
                         />
-                        <div className="p-4 w-full flex justify-center">
-                            <Button title={image.title}/>
-                        </div>
+                        <Link to={'/cars'} state={{ defaultTab: image.title }} className="p-4 w-full flex justify-center">
+                            <Button title={image.title} />
+                        </Link>
                     </div>
                 ))}
             </div>

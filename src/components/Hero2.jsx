@@ -3,7 +3,7 @@ import wave from '../assets/wave2.png'
 
 const Hero2 = () => {
     return (
-        <section className="relative h-[45vh] w-full mt-16 bg-[#232321] flex items-center px-6 flex-col-reverse lg:flex-row justify-between overflow-hidden">
+        <section className="md:block hidden relative h-[45vh] w-full mt-16 bg-[#232321] flex items-center px-6 flex-col-reverse lg:flex-row justify-between overflow-hidden">
 
             <div className="w-full h-full flex flex-col items-center justify-center text-center z-30 ">
                 <h1 className="text-Myprimary text-4xl sm:text-5xl lg:text-6xl font-bold mb-5">

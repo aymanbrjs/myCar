@@ -5,16 +5,14 @@ import calender from '../assets/calender.svg'
 import typeCare from '../assets/type.svg'
 import location from '../assets/location.svg'
 import { Star } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 const Card2 = () => {
-    const cards = Array(6).fill({});
+
     return (
         <>
-            {cards.map((_, index) => (
-                <div
-                    key={index}
-                    className="xs:w-full w-[70%] md:w-[30%] lg:w-[23%] rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl bg-[#121212]"
-                >
+            <Link to={'/details/2'} className='w-full'>
+                <div className="xs:w-full w-[60%] md:w-[30%] lg:w-[25%] rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl bg-[#121212]">
                     <img
                         src={car}
                         alt="Product Image"
@@ -66,9 +64,13 @@ const Card2 = () => {
                         </div>
                     </div>
                 </div>
-            ))}
+            </Link>
+
+
         </>
     );
+
 }
 
 export default Card2;
+

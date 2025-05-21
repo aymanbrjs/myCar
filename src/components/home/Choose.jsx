@@ -5,7 +5,7 @@ const Choose = () => {
     return (
         <section className="bg-black text-white md:py-20">
             <div className="flex flex-col-reverse md:flex-row gap-8 items-center">
-                {/* النصوص */}
+                
                 <div className="w-full md:w-1/2">
                     <div className="font-bold mb-4">
                         <h2 className="text-Myprimary text-3xl md:text-5xl pb-5">Why Did You Choose</h2>
@@ -15,8 +15,7 @@ const Choose = () => {
                         If you’re in the market for a new car, you have probably done your fair share of research to car services.
                         You know what kind of car you want, what features you need? We are here to help you at any time.
                     </p>
-
-                    {/* الإحصائيات */}
+                   
                     <div className="flex flex-wrap gap-6 justify-between text-center">
                         <div className="w-[45%] sm:w-[22%]">
                             <div className="text-Myprimary text-2xl font-bold">500+</div>
@@ -36,8 +35,7 @@ const Choose = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* الصورة */}
+               
                 <div className="w-full md:w-1/2 flex justify-center md:justify-end">
                     <img src={choose} alt="Car" className="w-full max-w-md object-contain -scale-x-100" />
                 </div>

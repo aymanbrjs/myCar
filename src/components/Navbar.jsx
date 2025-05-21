@@ -2,12 +2,13 @@ import { useSidebar } from '../context/SidebarContext';
 import logo from '../assets/logo.png';
 import image from '../assets/image.webp';
 import { FiAlignJustify } from "react-icons/fi";
-import { SlidersHorizontal} from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 import { FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import NavbarSearch from './nav/Search';
 
 const Navbar = () => {
     const { toggleSidebar } = useSidebar();
@@ -28,12 +29,7 @@ const Navbar = () => {
 
                     {/* Search */}
                     <div className="w-full sm:w-80 md:w-[20rem] px-3 mr-2 sm:px-5 flex items-center border rounded-full gap-3">
-                        <FaSearch className="text-gray-400 pointer-events-none" />
-                        <input
-                            type="text"
-                            placeholder="Search"
-                            className="w-full py-2 border-transparent focus:outline-none focus:ring-2 focus:ring-transparent bg-transparent text-white placeholder:text-gray-400"
-                        />
+                        <NavbarSearch />
                     </div>
 
                     {/* Desktop Menu */}

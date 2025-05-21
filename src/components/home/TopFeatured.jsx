@@ -2,12 +2,13 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import Card from '../Card';
 import Button from '../Button';
+import { Link } from 'react-router-dom';
 
 const TopFeatured = () => {
 
     return (
         <div>
-            <Tabs defaultValue="all" className="max-w-7xl mx-auto px-4 pt-20 flex flex-col items-center">
+            <Tabs defaultValue="all" className="max-w-7xl mx-auto px-4 flex flex-col items-center">
                 <h2 className='font-bold text-center mb-10 text-Myprimary text-5xl'>Our Top Featured Vehicles</h2>
                 <TabsList className="hidden md:flex bg-[#4a4646] py-4 md:py-7 px-0 md:px-0 mx-2 md:mx-4 rounded-full overflow-hidden text-white text-lg md:text-xl font-medium">
                     <TabsTrigger
@@ -35,7 +36,6 @@ const TopFeatured = () => {
                         Used Cars
                     </TabsTrigger>
                 </TabsList>
-
 
                 <div className='space-y-5 block md:hidden'>
                     <TabsList className="flex bg-[#4a4646] py-6 px-0 mx-2 rounded-full overflow-hidden text-white text-lg font-medium">
@@ -71,36 +71,50 @@ const TopFeatured = () => {
                     </TabsList>
                 </div>
 
-                <TabsContent value="all">
-                    <Card />
-                    <div className='flex justify-center'>
+                <TabsContent value="all" className="w-full">
+                    <div className="flex flex-wrap gap-8 justify-center my-10">
+                        {[...Array(5)].map((_, index) => (
+                            <Card key={index} />
+                        ))}
+                    </div>
+                    <Link to={"/cars"} className='flex justify-center'>
                         <Button title="SEE ALL CARS" />
+                    </Link>
+                </TabsContent>
+
+                <TabsContent value="new" className="w-full">
+                    <div className="flex flex-wrap gap-8 justify-center my-10">
+                        {[...Array(3)].map((_, index) => (
+                            <Card key={index} />
+                        ))}
+                    </div>
+                    <Link to={"/new"} className='flex justify-center'>
+                        <Button title="SEE New Arrival" />
+                    </Link>
+                </TabsContent>
+
+                <TabsContent value="best" className="w-full">
+                    <div className="flex flex-wrap gap-8 justify-center my-10">
+                        {[...Array(2)].map((_, index) => (
+                            <Card key={index} />
+                        ))}
+                    </div>
+                    <div className='flex justify-center'>
+                        <Button title="SEE Best Seller" />
                     </div>
                 </TabsContent>
 
-                <TabsContent value="new">
-                    <Card />
-                    <div className='flex justify-center'>
-                        <Button title="SEE ALL CARS" />
+                <TabsContent value="used" className="w-full">
+                    <div className="flex flex-wrap gap-8 justify-center my-10">
+                        {[...Array(1)].map((_, index) => (
+                            <Card key={index} />
+                        ))}
                     </div>
-                </TabsContent>
-
-                <TabsContent value="best">
-                    <Card />
                     <div className='flex justify-center'>
-                        <Button title="SEE ALL CARS" />
-                    </div>
-                </TabsContent>
-
-                <TabsContent value="used">
-                    <Card />
-                    <div className='flex justify-center'>
-                        <Button title="SEE ALL CARS" />
+                        <Button title="SEE Used Cars" />
                     </div>
                 </TabsContent>
             </Tabs>
-
-
         </div>
     );
 }

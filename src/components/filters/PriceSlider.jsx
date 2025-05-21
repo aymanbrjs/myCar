@@ -1,13 +1,10 @@
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { useState } from "react";
 import pricetag from '../../assets/pricetag.png';
 
 const MIN = 0;
 const MAX = 30000;
 
-export default function PriceSlider() {
-    const [value, setValue] = useState(15000);
-
+export default function PriceSlider({ value, onChange }) {
     return (
         <div className="text-white rounded-xl w-full max-w-lg mx-auto ">
             <div className="flex items-center justify-between mb-5">
@@ -17,37 +14,27 @@ export default function PriceSlider() {
                     </div>
                     <p className='text-1xl'>Price</p>
                 </div>
-                <span className="text-lg">
-                    ${value.toLocaleString()}
-                </span>
+                <span className="text-lg">${value.toLocaleString()}</span>
             </div>
 
             <SliderPrimitive.Root
                 className="relative p-4 flex items-center select-none touch-none w-full h-5"
                 min={MIN}
                 max={MAX}
-                step={100}  // خطوة 100 دولار
-                value={[value]}        // القيمة كمصفوفة تحتوي على قيمة واحدة
-                onValueChange={(val) => setValue(val[0])}  // تحديث القيمة (val مصفوفة)
+                step={100}
+                value={[value]}
+                onValueChange={(val) => onChange(val[0])}
                 aria-label="Price"
             >
                 <SliderPrimitive.Track className="bg-backgroundGray relative grow rounded-full h-[0.35rem]">
-                    <SliderPrimitive.Range
-                        className="absolute bg-Myprimary rounded-full h-full transition-all duration-500 ease-in-out"
-                    />
+                    <SliderPrimitive.Range className="absolute bg-Myprimary rounded-full h-full" />
                 </SliderPrimitive.Track>
 
                 <SliderPrimitive.Thumb
-                    className="
-                        block w-5 h-5 bg-Myprimary rounded-full cursor-pointer 
-                        focus:outline-none focus:ring-0 active:outline-none active:ring-0 border-0
-                        transition-transform duration-500 ease-in-out
-                        hover:scale-110 hover:shadow-lg"
+                    className="block w-5 h-5 bg-Myprimary rounded-full cursor-pointer hover:scale-110 hover:shadow-lg"
                     aria-label="Price value"
-                    style={{ willChange: "transform" }}
                 />
 
-                {/* tooltip */}
                 <div
                     className="absolute -top-5 text-sm px-2 p bg-gray-800 rounded transform -translate-x-1/2"
                     style={{

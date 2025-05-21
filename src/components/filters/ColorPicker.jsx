@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-const ColorPicker = () => {
-    const [selectedColor, setSelectedColor] = useState('#000000'); 
+const ColorPicker = ({ onSelectColor }) => {
+    const [selectedColor, setSelectedColor] = useState('#000000');
 
     const colors = [
         '#000000',
@@ -19,6 +19,7 @@ const ColorPicker = () => {
 
     const handleColorClick = (color) => {
         setSelectedColor(color);
+        onSelectColor && onSelectColor(color); 
     };
 
     return (
@@ -39,7 +40,6 @@ const ColorPicker = () => {
                         aria-label={`Select color ${color}`}
                     />
                 ))}
-
             </div>
         </div>
     );

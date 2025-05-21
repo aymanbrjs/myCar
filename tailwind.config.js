@@ -9,6 +9,10 @@ export default {
   ],
   theme: {
     extend: {
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 9af4d12 (first)
       screens: {
         xs: { max: '400px' }, 
       },

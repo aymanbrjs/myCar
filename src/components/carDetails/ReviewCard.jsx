@@ -3,6 +3,8 @@ import { Star } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from 'react';
+import CommentModal from '../CommentModal';
+import StarRatings from 'react-star-ratings';
 
 const ReviewCard = () => {
     const [open, setOpen] = useState(false);
@@ -30,11 +32,13 @@ const ReviewCard = () => {
                         </div>
 
                         <div className="flex items-center gap-1 mt-2 sm:mt-3">
-                            <Star className="w-4 h-4 fill-yellow-500 stroke-yellow-500" />
-                            <Star className="w-4 h-4 fill-yellow-500 stroke-yellow-500" />
-                            <Star className="w-4 h-4 fill-yellow-500 stroke-yellow-500" />
-                            <Star className="w-4 h-4 stroke-zinc-500" />
-                            <Star className="w-4 h-4 stroke-zinc-500" />
+                            <StarRatings
+                                rating={4.5}
+                                starRatedColor="#facc15"
+                                numberOfStars={5}
+                                starDimension="16px"
+                                starSpacing="2px"
+                            />
                         </div>
                     </div>
                 </div>

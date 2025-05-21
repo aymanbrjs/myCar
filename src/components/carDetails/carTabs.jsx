@@ -14,8 +14,23 @@ import Specifications from './Specifications';
 import Feather from './Feather';
 import ReviewCard from './ReviewCard';
 import Card2 from '../card2';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import ReportModal from '../ReportModal';
 
 const CarTabs = () => {
+    const handleReport = (reason) => {
+        const reportUrl = "/api/report";
+
+        axios.post(reportUrl, { reason })
+            .then(response => {
+                console.log("Report submitted successfully:", response.data);
+            })
+            .catch(error => {
+                console.error("Error submitting report:", error);
+            });
+    };
+
     return (
         <div>
             <Tabs defaultValue="details" className="w-full mt-20">
@@ -67,16 +82,25 @@ const CarTabs = () => {
                             </div>
 
                             <div className="xs:w-full flex flex-row md:flex-col gap-3 mt-4 lg:mt-0 xs:justify-center">
-                                <Button2 title="Report" style="px-3 py-1" />
-                                <Button2 title="Details" style="px-3 py-1" />
+                                <Link to={"/sellerProfile/1"}>
+                                    <Button2 title="Details" style="px-3 py-1" />
+                                </Link>
+                                <ReportModal
+                                    triggerText="Report"
+                                    title="Report Seller"
+                                    placeholder="Write the reason for reporting this seller..."
+                                    onSubmit={handleReport}
+                                />
                             </div>
                         </div>
                     </div>
 
                     <Specifications />
-                    <Feather />
+                    <div className='border-b border-white/50 pb-8'>
+                        <Feather />
+                    </div>
                     <div>
-                        <p className='text-2xl mt-10'>Recommend</p>
+                        <p className='text-2xl mt-6'>Recommend</p>
                         <div className="flex flex-wrap gap-6 py-10 justify-center md:justify-start">
                             <Card2 />
                         </div>

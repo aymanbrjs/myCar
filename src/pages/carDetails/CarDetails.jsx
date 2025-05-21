@@ -9,9 +9,11 @@ import car3 from "../../assets/carDetails/car3.png";
 import car4 from "../../assets/carDetails/car4.png";
 import CarData from "@/components/carDetails/carData";
 import CarTabs from "@/components/carDetails/carTabs";
+import { useParams } from "react-router-dom";
 
 export default function CarDetails() {
-    // const { id } = useParams();
+    const param = useParams()
+    const id = param.id
 
     const productImages = [car1, car2, car3, car4];
     return (

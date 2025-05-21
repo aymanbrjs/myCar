@@ -1,11 +1,19 @@
 import React from 'react';
 import location from '../../assets/location.png'
+import LikeButton from '../LikeButton';
 
 const CarData = () => {
     return (
         <div>
             <small className="text-sm text-Myprimary">Avaliable</small>
-            <h4 className="text-2xl">Mercedes SL 63 AMG</h4>
+            <div className='flex justify-between items-center pr-10'>
+                <h4 className="text-2xl">Mercedes SL 63 AMG</h4>
+                <LikeButton
+                    itemType="car"
+                    itemId="1"
+                    initialLiked={true}
+                />
+            </div>
             <p className="py-4 text-white/50">The Mercedes SL 63 AMG is a sports car created using advanced technologies that have made it incredibly fast and powerful.</p>
 
             <p className="pt-2">Rental Price : SYP 5000,000 /<span className="text-Myprimary">day</span></p>

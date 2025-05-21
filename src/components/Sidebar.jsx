@@ -8,10 +8,10 @@ import Star from '../assets/Star.png';
 import location from '../assets/location.png';
 import transmission from '../assets/transmission.png';
 import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group"
-import Brands from './home/Brands';
-import { useEffect } from "react";
-import YearRangeSlider from './filters/SpeedRangeSlider';
-import SpeedRangeSlider from './filters/YearRangeSlider';
+import Brands from '../components/filters/Brands';
+import { useEffect, useState } from "react";
+import YearRangeSlider from './filters/YearRangeSlider';
+import SpeedRangeSlider from './filters/SpeedRangeSlider';
 import Button from './filters/Button';
 import BodyTypes from './filters/BodyTypes';
 import compact from '../assets/compact.png';
@@ -22,15 +22,94 @@ import ColorPicker from './filters/ColorPicker';
 import HorsepowerSlider from './filters/HorsepowerSlider';
 import PriceSlider from './filters/PriceSlider';
 import Button2 from './Button';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
+    const { sidebarOpen, toggleSidebar } = useSidebar();
+    const [filters, setFilters] = useState({
+        sort: "buy",
+        type: "newest",
+        brand: "",
+        year: [2000, 2025],
+        speed: [0, 300],
+        transmission: "",
+        fuelType: "",
+        bodyType: "",
+        color: "",
+        horsepower: [0, 800],
+        features: [],
+        price: 0,
+        city: "",
+    });
+
+    const countActiveFilters = () => {
+        let count = 0;
+
+        // sort
+        if (filters.sort !== "buy") count++;
+
+        // type
+        if (filters.type !== "newest") count++;
+
+        // brand
+        if (filters.brand) count++;
+
+        // year ( [2000, 2025])
+        if (filters.year[0] !== 2000 || filters.year[1] !== 2025) count++;
+
+        // speed ( [0, 300])
+        if (filters.speed[0] !== 0 || filters.speed[1] !== 300) count++;
+
+        // transmission
+        if (filters.transmission) count++;
+
+        // fuelType
+        if (filters.fuelType) count++;
+
+        // bodyType
+        if (filters.bodyType) count++;
+
+        // color
+        if (filters.color) count++;
+
+        // horsepower ( [0, 800])
+        if (filters.horsepower[0] !== 0 || filters.horsepower[1] !== 800) count++;
+
+        // features 
+        if (filters.features.length > 0) count++;
+
+        // price ( 0)
+        if (filters.price !== 0) count++;
+
+        // city
+        if (filters.city) count++;
+
+        return count;
+    };
+
+
     const bodyTypeData = [
         { src: compact, name: "compact" },
         { src: crossover, name: "crossover" },
         { src: sport, name: "sport" },
         { src: suv, name: "suv" },
     ]
-    const { sidebarOpen, toggleSidebar } = useSidebar();
+
+    const toggleFilter = (key, value, isArray = false) => {
+        setFilters(prev => {
+            if (isArray) {
+                const exists = prev[key].includes(value);
+                const newArray = exists
+                    ? prev[key].filter(item => item !== value)
+                    : [...prev[key], value];
+                return { ...prev, [key]: newArray };
+            } else {
+                const newValue = prev[key] === value ? "" : value;
+                return { ...prev, [key]: newValue };
+            }
+        });
+    };
+
     useEffect(() => {
         if (sidebarOpen) {
             document.body.style.overflow = 'hidden';
@@ -43,10 +122,21 @@ const Sidebar = () => {
         };
     }, [sidebarOpen]);
 
+
+    useEffect(() => {
+        console.log(filters);
+
+    }, [filters]);
+
     return (
         <>
             <div
-                className={`sidebar-scroll overflow-hidden fixed top-0 right-0 h-full w-96 bg-[#121212] text-white shadow-lg transform transition-transform duration-300 z-50 overflow-y-auto ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                className={`sidebar-scroll overflow-hidden fixed top-0 right-0 h-full 
+                w-full sm:w-4/5 lg:w-96 
+                bg-[#121212] text-white shadow-lg 
+                transform transition-transform duration-300 z-50 overflow-y-auto 
+                ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+
 
                 <div className="p-4 flex justify-between items-center border-b border-gray-700">
                     <h2 className="text-xl font-bold">Filters</h2>
@@ -67,7 +157,8 @@ const Sidebar = () => {
                             </div>
                             <p className='text-1xl'>Sort</p>
                         </div>
-                        <RadioGroup defaultValue="buy" className="flex gap-5 pt-5">
+                        <RadioGroup value={filters.sort}
+                            onValueChange={(value) => setFilters((prev) => ({ ...prev, sort: value }))} className="flex gap-5 pt-5">
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem
                                     value="buy"
@@ -96,7 +187,8 @@ const Sidebar = () => {
                             </div>
                             <p className='text-1xl'>Type</p>
                         </div>
-                        <RadioGroup defaultValue="newest" className=" flex flex-wrap gap-5 pt-5">
+                        <RadioGroup value={filters.type}
+                            onValueChange={(value) => setFilters((prev) => ({ ...prev, type: value }))} className=" flex flex-wrap gap-5 pt-5">
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem
                                     value="newest"
@@ -143,22 +235,22 @@ const Sidebar = () => {
                             </div>
                             <p className='text-1xl'>Car make/model</p>
                         </div>
-                        <div>
-                            <Brands containerClassName="gap-2" iconSize='w-14' />
+                        <div className='py-5'>
+                            <Brands setFilters={setFilters} filters={filters} />
                         </div>
                     </div>
 
                     {/* Year */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
-                            <YearRangeSlider />
+                            <YearRangeSlider filters={filters} setFilters={setFilters} />
                         </div>
                     </div>
 
                     {/* Speed */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
-                            <SpeedRangeSlider />
+                            <SpeedRangeSlider filters={filters} setFilters={setFilters} />
                         </div>
                     </div>
 
@@ -171,8 +263,17 @@ const Sidebar = () => {
                             <p className='text-1xl'>Transmission</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
-                            <Button title="Automatic"/>
-                            <Button title="Manual" />
+                            <div onClick={() => toggleFilter("transmission", "automatic")}>
+                                <Button title="Automatic" active={filters.transmission.includes("automatic")} />
+                            </div>
+
+                            <div onClick={() => toggleFilter("transmission", "manual")}>
+                                <Button
+                                    title="Manual"
+                                    active={filters.transmission.includes("manual")}
+                                />
+                            </div>
+
 
                         </div>
                     </div>
@@ -186,9 +287,17 @@ const Sidebar = () => {
                             <p className='text-1xl'>Fuel Type</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
-                            <Button title="Petrol" />
-                            <Button title="Diesel" />
-                            <Button title="Electric" />
+                            <div onClick={() => toggleFilter("fuelType", "petrol")}>
+                                <Button title="Petrol" active={filters.fuelType.includes("petrol")} />
+                            </div>
+
+                            <div onClick={() => toggleFilter("fuelType", "diesel")}>
+                                <Button title="Diesel" active={filters.fuelType.includes("diesel")} />
+                            </div>
+
+                            <div onClick={() => toggleFilter("fuelType", "electric")}>
+                                <Button title="Electric" active={filters.fuelType.includes("electric")} />
+                            </div>
                         </div>
                     </div>
 
@@ -201,13 +310,15 @@ const Sidebar = () => {
                             <p className='text-1xl'>Body Types</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
-                            {
-                                bodyTypeData.map((item, index) => {
-                                    return (
-                                        <BodyTypes key={index} src={item.src} name={item.name} />
-                                    )
-                                })
-                            }
+                            {bodyTypeData.map((item, index) => (
+                                <BodyTypes
+                                    key={index}
+                                    src={item.src}
+                                    name={item.name}
+                                    active={filters.bodyType === item.name}
+                                    onSelect={() => toggleFilter("bodyType", item.name)}
+                                />
+                            ))}
                         </div>
                     </div>
 
@@ -220,14 +331,18 @@ const Sidebar = () => {
                             <p className='text-1xl'>Body Color</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
-                            <ColorPicker />
+                            <ColorPicker onSelectColor={(color) => setFilters(prev => ({ ...prev, color }))} />
                         </div>
                     </div>
 
                     {/* Horsepower */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
-                            <HorsepowerSlider />
+                            <HorsepowerSlider
+                                onChangeHorsepower={(val) =>
+                                    setFilters((prev) => ({ ...prev, horsepower: val }))
+                                }
+                            />
                         </div>
                     </div>
 
@@ -240,17 +355,31 @@ const Sidebar = () => {
                             <p className='text-1xl'>Features</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
-                            <Button title="Navigation" />
-                            <Button title="Sun Roof" />
-                            <Button title="2 doors" />
-                            <Button title="7 seater" />
+                            <div onClick={() => toggleFilter("features", "Navigation", true)}>
+                                <Button title="Navigation" active={filters.features.includes("Navigation")} />
+                            </div>
+
+                            <div onClick={() => toggleFilter("features", "Sun Roof", true)}>
+                                <Button title="Sun Roof" active={filters.features.includes("Sun Roof")} />
+                            </div>
+
+                            <div onClick={() => toggleFilter("features", "2 doors", true)}>
+                                <Button title="2 doors" active={filters.features.includes("2 doors")} />
+                            </div>
+
+                            <div onClick={() => toggleFilter("features", "7 seater", true)}>
+                                <Button title="7 seater" active={filters.features.includes("7 seater")} />
+                            </div>
                         </div>
                     </div>
 
                     {/* Price */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
-                            <PriceSlider />
+                            <PriceSlider
+                                value={filters.price}
+                                onChange={(val) => setFilters(prev => ({ ...prev, price: val }))}
+                            />
                         </div>
                     </div>
 
@@ -263,13 +392,18 @@ const Sidebar = () => {
                             <p className='text-1xl'>City</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
-                            <Button title="Damas" />
+                            <div onClick={() => toggleFilter("city", "Damas")}>
+                                <Button title="Damas" active={filters.city.includes("Damas")} />
+                            </div>
                         </div>
                     </div>
 
                     <div className='flex justify-center py-3'>
-                        <Button2 title="Show Results" />
+                        <Link to={"/filters"} onClick={toggleSidebar}>
+                            <Button2 title={`Show Results${countActiveFilters() > 0 ? ` (${countActiveFilters()})` : ''}`} />
+                        </Link>
                     </div>
+
                 </div>
             </div>
 
