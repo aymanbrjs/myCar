@@ -12,8 +12,14 @@ import Signin from './pages/signin/signin'
 import Vercode from './pages/verCode/verCode'
 import Signin2 from './pages/signin2/signin2'
 import CarDetails from './pages/carDetails/CarDetails'
-function App() {
+import ComplaintDetails from './components/setting/complaintDatials'
+import EditProfile from './pages/editProfile/editProfile'
+import React from 'react';
+import CreateCarPage from './pages/CreateCar/createCar'
 
+
+function App() {
+ 
   return (
     <>
       <BrowserRouter>
@@ -31,6 +37,9 @@ function App() {
             <Route path='/profile' element={<Profile />} />
             <Route path='/setting' element={<Setting />} />
             <Route path='/details/:id' element={<CarDetails />} />
+            <Route path='/complaint/:id' element={<ComplaintDetails/>} />
+            <Route path='/editprofile' element={<EditProfile/>} />
+            <Route path='/create' element={<CreateCarPage/>} />
           </Route>
 
 
